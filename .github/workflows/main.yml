@@ -20,13 +20,13 @@ jobs:
           python-version: 3.x
 
       - name: Install dependencies
-        run: pip install -r requirements.txt  # 如果有依赖项，将其替换为正确的命令
+        run: pip install -r requirements.txt
 
       - name: Run main.py
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           API_BASE_URL: ${{ vars.API_BASE_URL }}
-          MAILTO: ${{ vars.MAILTO }}
+          MAILTO: ${{ secrets.MAILTO }}
           MAIL: ${{ vars.MAIL }}
           SMTP: ${{ vars.SMTP }}
           MAILPWD: ${{ secrets.MAILPWD }}
