@@ -24,13 +24,13 @@ jobs:
       - name: Run main.py
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          API_BASE_URL: ${{ secrets.API_BASE_URL }}
-          MAILTO: ${{ secrets.MAILTO }}
-          MAIL: ${{ secrets.MAIL }}
-          SMTP: ${{ secrets.SMTP }}
+          API_BASE_URL: ${{ vars.API_BASE_URL }}
+          MAILTO: ${{ vars.MAILTO }}
+          MAIL: ${{ vars.MAIL }}
+          SMTP: ${{ vars.SMTP }}
           MAILPWD: ${{ secrets.MAILPWD }}
-          NITTER: ${{ secrets.NITTER }}
-          MINS: ${{ secrets.MINS }}
-          TARGET: ${{ secrets.TARGET }}
-          INFO: ${{ secrets.INFO }}
+          NITTER: ${{ vars.NITTER }}
+          MINS: ${{ vars.MINS }}
+          TARGET: ${{ vars.TARGET }}
+          INFO: ${{ vars.INFO }}
         run: python main.py
