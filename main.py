@@ -70,7 +70,7 @@ def sumTweets(lang = '中文',length:int = 10000, model='openai/gpt-3.5-turbo-11
         if len(df) == 0:
             continue
         for k, v in df.iterrows():
-            pattern = r'<a\s+.*?href="([^"]*https://%s/[^/]+/status/[^"]*)"[^>]*>'%nitter.replace(".",'\.')
+            pattern = r'<a\s+.*?href="([^"]*https://%s/[^/]+/status/[^"]*)"[^>]*>'%nitter.replace(".",r'\.')
             matches = re.findall(pattern, v['summary'])
             if len(matches) > 0:
                 if matches[0] in df['id'].values:
