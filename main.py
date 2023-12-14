@@ -100,7 +100,7 @@ def sumTweets(lang = '中文',length:int = 10000, model='openai/gpt-3.5-turbo-11
                        base_url=os.environ['API_BASE_URL'])["choices"][0]["message"]["content"]
     if mail and len(result) > 0:
         if render:
-            result=markdown(result,extensions=['markdown.extensions.tables'])
+            result=markdown(result.replace('```','').replace('markdown',''),extensions=['markdown.extensions.tables'])
         sendEmail(result)
     return result
 
