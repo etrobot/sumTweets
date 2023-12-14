@@ -55,7 +55,7 @@ def sumTweets(lang = '中文',length:int = 10000, model='openai/gpt-3.5-turbo-11
     users=os.environ['TARGET']
     info: str = os.environ['INFO']
     nitter:str = os.environ['NITTER']
-    minutes:int = int(os.environ['MINS'])
+    minutes:int = int(float(os.environ['MINS']))
     result = ''
     for user in users.split(';'):
         rss_url = f'https://{nitter}/{user}/rss'
