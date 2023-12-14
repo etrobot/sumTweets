@@ -10,7 +10,6 @@
 ```
 OPENAI_API_KEY="sk-*********"
 API_BASE_URL="https://*********"
-MODEL="openai/gpt-3.5-turbo-1106"
 MAILTO="*********@***.***"
 MAIL="*********@163.com"
 SMTP="smtp.163.com"
