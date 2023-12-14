@@ -10,7 +10,7 @@ from email.mime.text import MIMEText
 from email.header import Header
 from markdown import markdown
 from dotenv import load_dotenv, find_dotenv
-load_dotenv(find_dotenv())
+# load_dotenv(find_dotenv())
 
 def sendEmail(message:str,receiver:str=os.environ['MAILTO'],subject:str=''):
     '''
