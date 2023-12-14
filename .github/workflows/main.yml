@@ -1,0 +1,36 @@
+name: Main Workflow
+
+on:
+  push:
+    branches:
+      - main  
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt  # 如果有依赖项，将其替换为正确的命令
+
+      - name: Run main.py
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          API_BASE_URL: ${{ secrets.API_BASE_URL }}
+          MAILTO: ${{ secrets.MAILTO }}
+          MAIL: ${{ secrets.MAIL }}
+          SMTP: ${{ secrets.SMTP }}
+          MAILPWD: ${{ secrets.MAILPWD }}
+          NITTER: ${{ secrets.NITTER }}
+          MINS: ${{ secrets.MINS }}
+          TARGET: ${{ secrets.TARGET }}
+          INFO: ${{ secrets.INFO }}
+        run: python main.py
