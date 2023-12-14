@@ -1,0 +1,7 @@
+Python-dotenv
+feedparser
+requests
+markdown
+litellm
+pandas
+bs4
