@@ -1,0 +1,47 @@
+name: Main Workflow
+
+on:
+  schedule:
+    - cron: '*/20 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment:
+      name: sumTweetsCron
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+          
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+
+      - name: Run main.py
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          API_BASE_URL: ${{ vars.API_BASE_URL }}
+          MAILTO: ${{ secrets.MAILTO }}
+          MAIL: ${{ vars.MAIL }}
+          SMTP: ${{ vars.SMTP }}
+          MAILPWD: ${{ secrets.MAILPWD }}
+          NITTER: ${{ vars.NITTER }}
+          MINS: ${{ vars.MINS }}
+          TARGET: ${{ vars.TARGET }}
+          INFO: ${{ vars.INFO }}
+        run: python main.py
