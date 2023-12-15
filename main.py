@@ -42,7 +42,7 @@ def sendEmail(message:str,receiver:str=os.environ['MAILTO'],subject:str=''):
         print('邮件发送失败')
     smtp.quit() # 结束
 
-def sumTweets(lang = '中文',length:int = 10000, model='openai/gpt-3.5-turbo-1106',mail=True,render=True):
+def sumTweets(prompt:str,lang = '中文',length:int = 10000, model='openai/gpt-3.5-turbo-1106',mail=True,render=True):
     '''
     抓取目标推特AI总结并发邮件
     :param lang:
@@ -93,7 +93,9 @@ def sumTweets(lang = '中文',length:int = 10000, model='openai/gpt-3.5-turbo-11
             'id'].str.replace(nitter, 'x.com') + '): ' + df['summary']
         # df.to_csv('test.csv', index=False)
         tweets = df['content'].to_csv().replace(nitter, 'x.com')[:length]
-        prompt =  f"<tweets>{tweets}</tweets>\n以上是一些推，你是一名{lang}专栏『{info}最新资讯』的资深作者，请在以上推中，挑选出和『{info}』相关信息(若有)的推,汇编成一篇用markdown排版的{lang}文章，包含发推时间、作者(若有)、推特链接(若有)和推特内容以及你的解读和评论，如果没有{info}相关资讯请回复『NOT FOUND』"
+        if len(prompt)<10:
+            prompt =  "<tweets>{tweets}</tweets>\n以上是一些推，你是一名{lang}专栏『{info}最新资讯』的资深作者，请在以上推中，挑选出和『{info}』相关信息(若有)的推,汇编成一篇用markdown排版的{lang}文章，包含发推时间、作者(若有)、推特链接(若有)和推特内容以及你的解读和评论，如果没有{info}相关资讯请回复『NOT FOUND』"
+        prompt =  prompt.format(tweets=tweets,lang=lang,info=info)
         print('tweets:', prompt)
         if not 'NOT FOUND' in result:
             result = result + '\n##%s\n\n'%user + completion(model=model, messages=[{"role": "user", "content": prompt, }], api_key=os.environ['OPENAI_API_KEY'],
@@ -105,4 +107,4 @@ def sumTweets(lang = '中文',length:int = 10000, model='openai/gpt-3.5-turbo-11
     return result
 
 if __name__=='__main__':
-    sumTweets(mail=True,render=True)
+    sumTweets(os.environ.get('PROMPT',''),mail=True,render=True)
