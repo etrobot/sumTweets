@@ -61,7 +61,7 @@ def sumTweets(prompt:str,lang = '中文',length:int = 10000, model='openai/gpt-3
         rss_url = f'https://{nitter}/{user}/rss'
         feed = parse(rss_url)
         df = pd.json_normalize(feed.entries)
-        df['timestamp'] = df['published'].apply(lambda x: pd.Timestamp(x).timestamp())
+        df['timestamp'] = df['pubDate'].apply(lambda x: pd.Timestamp(x).timestamp())
         if not 'i/lists' in user:
             df = df.reindex(index=df.index[::-1])
         compareTime = datetime.utcnow() - timedelta(minutes=minutes)
@@ -89,7 +89,7 @@ def sumTweets(prompt:str,lang = '中文',length:int = 10000, model='openai/gpt-3
                     oripost = session.get(matches[0]).text
                     quote = BeautifulSoup(oripost, 'html.parser').title.string.replace(" | nitter", '')
                     df.at[k, 'summary'] = re.sub(pattern, "<blockquote>%s</blockquote>" % quote, v['summary'])
-        df['content'] = df['published'].str[len('Sun, '):-len(' GMT')] + '[' + df['author'] + ']' + '(' + df[
+        df['content'] = df['pubDate'].str[len('Sun, '):-len(' GMT')] + '[' + df['author'] + ']' + '(' + df[
             'id'].str.replace(nitter, 'x.com') + '): ' + df['summary']
         # df.to_csv('test.csv', index=False)
         tweets = df['content'].to_csv().replace(nitter, 'x.com')[:length]
